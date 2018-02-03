@@ -77,7 +77,7 @@ class App extends Component {
         >
           Push location
         </button>
-        <Map zoom={[17]} locations={this.state.locations} />
+        <Map zoom={[17]} locations={this.state.locations} center={[11.965245699999999, 57.704194599999994]} />
       </div>
     );
   }

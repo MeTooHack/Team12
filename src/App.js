@@ -25,7 +25,7 @@ class App extends Component {
     this.state = {
       position: {},
       locations: {},
-      loading: true
+      center: [11.965245699999999, 57.704194599999994]
     };
   }
 
@@ -73,16 +73,20 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="App">
         <button
-          className="App-intro"
-          disabled={this.state.loading}
-          onClick={this.pushLocation}
-          style={{ position: 'absolute', zIndex: 100 }}
+          className="abuseButton"
+          onClick={this.pushLocation.bind(this)}
+          content="PUSH LOCATION"
+          type="submit"
         >
-          Push location
+          <div className="abuseButtonText">PUSH LOCATION</div>
         </button>
-        <Map zoom={[17]} locations={this.state.locations} />
+        <Map
+          zoom={[17]}
+          locations={this.state.locations}
+          center={this.state.center}
+        />
       </div>
     );
   }

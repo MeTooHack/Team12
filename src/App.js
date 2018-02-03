@@ -34,13 +34,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    database.ref('/').once('value').then(snapshot => {
-      const newState = R.mergeDeepRight(this.state, {
-        locations: snapshot.val()
-      });
-      console.log('Mounted with ', newState);
-      this.setState(newState);
-    });
+    // database.ref('/').once('value').then(snapshot => {
+    //   const newState = R.mergeDeepRight(this.state, {
+    //     locations: snapshot.val()
+    //   });
+    //   console.log('Mounted with ', newState);
+    //   this.setState(newState);
+    // });
     this.rootRef = database.ref('/');
     this.rootRef.on('child_added', data => {
       console.log('child added for ' + data.key, data.val());

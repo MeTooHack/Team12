@@ -79,7 +79,7 @@ class App extends Component {
           content="PUSH LOCATION"
           type="submit"
         >
-          <div className="abuseButtonText">Push location</div>
+          <div className="abuseButtonText">#MeToo</div>
         </button>
         {this.state.position.coords && 
         <Map

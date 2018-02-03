@@ -14,27 +14,30 @@ var config = {
   storageBucket: 'metoo-c6174.appspot.com',
   messagingSenderId: '525843351324'
 };
-firebase.initializeApp(config);
 
-var database = firebase.database();
+firebase.initializeApp(config);
 
 class App extends Component {
   constructor(props) {
     super(props);
-
+    this.pushLocation = this.pushLocation.bind(this);
+    this.updateData = this.updateData.bind(this);
     this.state = {
       position: {},
-      locations: {}
+      locations: {},
+      loading: true
     };
   }
 
   componentDidMount() {
+    this.database = firebase.database();
+
     Location.get()
       .then(position => {
-        // Push geojson to firebase
         this.setState(
           R.mergeDeepRight(this.state, {
-            position
+            position,
+            loading: false
           })
         );
       })
@@ -46,22 +49,23 @@ class App extends Component {
     //   console.log('Mounted with ', newState);
     //   this.setState(newState);
     // });
-    this.rootRef = database.ref('/');
-    this.rootRef.on('child_added', data => {
-      // console.log('child added for ' + data.key, data.val());
-      this.setState(
-        R.mergeDeepRight(this.state, {
-          locations: { [data.key]: data.val() }
-        })
-      );
-    });
+
+    this.database.ref('/').on('child_added', this.updateData);
+  }
+
+  updateData(data) {
+    this.setState(
+      R.mergeDeepRight(this.state, {
+        locations: { [data.key]: data.val() }
+      })
+    );
   }
 
   pushLocation() {
     console.log('Got location', this.state.position);
     if (this.state.position && this.state.position.coords) {
       console.log('Pushing ', toGeoJson(this.state.position));
-      database.ref().push().set(toGeoJson(this.state.position));
+      this.database.ref().push().set(toGeoJson(this.state.position));
     } else {
       console.log('No position available');
     }
@@ -72,7 +76,8 @@ class App extends Component {
       <div>
         <button
           className="App-intro"
-          onClick={this.pushLocation.bind(this)}
+          disabled={this.state.loading}
+          onClick={this.pushLocation}
           style={{ position: 'absolute', zIndex: 100 }}
         >
           Push location

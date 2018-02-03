@@ -31,7 +31,7 @@ class App extends Component {
         <Layer
           type="heatmap"
           paint={{
-            'heatmap-opacity': 0.9,
+            'heatmap-opacity': 0.6,
             'heatmap-intensity': 0.1,
             'heatmap-radius': 40,
             'heatmap-weight': 0.5

@@ -25,7 +25,7 @@ class App extends Component {
     this.state = {
       position: {},
       locations: {},
-      center: {[11.965245699999999, 57.704194599999994]}
+      center: [11.965245699999999, 57.704194599999994]
     };
   }
 

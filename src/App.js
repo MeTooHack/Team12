@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import * as R from 'ramda';
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as firebase from 'firebase';
-
-import './App.css';
 import Location from './utils/Location';
 import { toGeoJson } from './utils/GeoJson';
-
-const Map = ReactMapboxGl({
-  accessToken:
-    'pk.eyJ1IjoiaGEwMDYiLCJhIjoiY2pkNzVvZjN4MGM2MDJ5bzkwamJob3B1bSJ9.F-UPJyfQ2Ht0u-voxsEKtA'
-});
+import Map from './Map';
+import './App.css';
 
 var config = {
   apiKey: 'AIzaSyCAN-ZR-1WKnDx9uP-zOcDkVWFvfXSG0bY',
@@ -29,11 +23,22 @@ class App extends Component {
     super(props);
 
     this.state = {
+      position: {},
       locations: {}
     };
   }
 
   componentDidMount() {
+    Location.get()
+      .then(position => {
+        // Push geojson to firebase
+        this.setState(
+          R.mergeDeepRight(this.state, {
+            position
+          })
+        );
+      })
+      .catch(err => console.log(err));
     // database.ref('/').once('value').then(snapshot => {
     //   const newState = R.mergeDeepRight(this.state, {
     //     locations: snapshot.val()
@@ -43,7 +48,7 @@ class App extends Component {
     // });
     this.rootRef = database.ref('/');
     this.rootRef.on('child_added', data => {
-      console.log('child added for ' + data.key, data.val());
+      // console.log('child added for ' + data.key, data.val());
       this.setState(
         R.mergeDeepRight(this.state, {
           locations: { [data.key]: data.val() }
@@ -53,40 +58,25 @@ class App extends Component {
   }
 
   pushLocation() {
-    Location.get()
-      .then(position => {
-        // Push geojson to firebase
-        console.log('Pushing ', toGeoJson(position));
-        database.ref().push().set(toGeoJson(position));
-      })
-      .catch(err => console.log(err));
+    if (this.state.position) {
+      console.log('Pushing ', toGeoJson(this.state.position));
+      database.ref().push().set(toGeoJson(this.state.position));
+    } else {
+      console.log('No position available');
+    }
   }
 
   render() {
     return (
       <div>
-        {JSON.stringify(this.state)}
-        <button className="App-intro" onClick={this.pushLocation.bind(this)}>
+        <button
+          className="App-intro"
+          onClick={this.pushLocation.bind(this)}
+          style={{ position: 'absolute', zIndex: 100 }}
+        >
           Push location
         </button>
-
-        <Map
-          style="mapbox://styles/mapbox/streets-v9"
-          containerStyle={{
-            height: '100vh',
-            width: '100vw'
-          }}
-        >
-          <Layer
-            type="symbol"
-            id="marker"
-            layout={{ 'icon-image': 'marker-15' }}
-          >
-            <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-            <Feature coordinates={[56.6875, 16.327]} />
-            <Feature coordinates={[16.327, 56.6875]} />
-          </Layer>
-        </Map>
+        <Map locations={this.state.locations} />
       </div>
     );
   }

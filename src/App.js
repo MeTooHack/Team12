@@ -3,8 +3,8 @@ import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as firebase from 'firebase';
 
 import './App.css';
-import Location from './utils/Location'
-import { toGeoJson } from './utils/GeoJson'
+import Location from './utils/Location';
+import { toGeoJson } from './utils/GeoJson';
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -23,36 +23,38 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-// var userId = firebase.auth().currentUser.uid;
-database.ref('/').once('value').then(function(snapshot) {
-  console.log(snapshot.val());
-});
-
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      locations: []
+      locations: {},
+      hej: 'f'
     };
+  }
+
+  componentDidMount() {
+    database.ref('/').once('value').then(snapshot => {
+      const v = Object.assign({}, this.state, { locations: snapshot.val() });
+      console.log('Mounted with ', v);
+      this.setState(v);
+    });
   }
 
   pushLocation() {
     Location.get()
-      .then(position =>
+      .then(position => {
         // Push geojson to firebase
-        database.ref().push().set(toGeoJson(position))
-      )
+        console.log('Pushing ', toGeoJson(position));
+        database.ref().push().set(toGeoJson(position));
+      })
       .catch(err => console.log(err));
   }
 
   render() {
     return (
       <div>
-        <button
-          className="App-intro"
-          onClick={ this.pushLocation.bind(this) }
-        >
+        <button className="App-intro" onClick={this.pushLocation.bind(this)}>
           Push location
         </button>
 

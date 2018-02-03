@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as R from 'ramda';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import * as firebase from 'firebase';
 
@@ -28,16 +29,26 @@ class App extends Component {
     super(props);
 
     this.state = {
-      locations: {},
-      hej: 'f'
+      locations: {}
     };
   }
 
   componentDidMount() {
     database.ref('/').once('value').then(snapshot => {
-      const v = Object.assign({}, this.state, { locations: snapshot.val() });
-      console.log('Mounted with ', v);
-      this.setState(v);
+      const newState = R.mergeDeepRight(this.state, {
+        locations: snapshot.val()
+      });
+      console.log('Mounted with ', newState);
+      this.setState(newState);
+    });
+    this.rootRef = database.ref('/');
+    this.rootRef.on('child_added', data => {
+      console.log('child added for ' + data.key, data.val());
+      this.setState(
+        R.mergeDeepRight(this.state, {
+          locations: { [data.key]: data.val() }
+        })
+      );
     });
   }
 
@@ -54,6 +65,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        {JSON.stringify(this.state)}
         <button className="App-intro" onClick={this.pushLocation.bind(this)}>
           Push location
         </button>

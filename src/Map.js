@@ -6,6 +6,7 @@ import Location from './utils/Location';
 import { toGeoJson } from './utils/GeoJson';
 
 const Map = ReactMapboxGl({
+  doubleClickZoom: false,
   accessToken:
     'pk.eyJ1IjoiaGEwMDYiLCJhIjoiY2pkNzVvZjN4MGM2MDJ5bzkwamJob3B1bSJ9.F-UPJyfQ2Ht0u-voxsEKtA'
 });

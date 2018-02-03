@@ -29,6 +29,8 @@ class App extends Component {
     };
   }
 
+
+
   componentDidMount() {
     Location.get()
       .then(position => {
@@ -46,11 +48,11 @@ class App extends Component {
     //   });
     //   console.log('Mounted with ', newState);
     //   this.setState(newState);
-    // });
     this.rootRef = database.ref('/');
     this.rootRef.on('child_added', data => {
       // console.log('child added for ' + data.key, data.val());
       this.setState(
+      // });
         R.mergeDeepRight(this.state, {
           locations: { [data.key]: data.val() }
         })
@@ -75,6 +77,7 @@ class App extends Component {
           className="abuseButton"
           onClick={this.pushLocation.bind(this)}
           content="PUSH LOCATION"
+          type="submit"
         >
         <div className="abuseButtonText">
         PUSH LOCATION</div>

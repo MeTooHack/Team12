@@ -8,6 +8,23 @@ const Map = ReactMapboxGl({
     'pk.eyJ1IjoiZmFicmljOCIsImEiOiJjaWc5aTV1ZzUwMDJwdzJrb2w0dXRmc2d0In0.p6GGlfyV-WksaDV_KdN27A'
 });
 
+var config = {
+  apiKey: 'AIzaSyCAN-ZR-1WKnDx9uP-zOcDkVWFvfXSG0bY',
+  authDomain: 'metoo-c6174.firebaseapp.com',
+  databaseURL: 'https://metoo-c6174.firebaseio.com',
+  projectId: 'metoo-c6174',
+  storageBucket: 'metoo-c6174.appspot.com',
+  messagingSenderId: '525843351324'
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+// var userId = firebase.auth().currentUser.uid;
+database.ref('/').once('value').then(function(snapshot) {
+  console.log(snapshot.val());
+});
+
 class App extends Component {
   render() {
     return (

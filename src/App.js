@@ -24,8 +24,7 @@ class App extends Component {
     this.updateData = this.updateData.bind(this);
     this.state = {
       position: {},
-      locations: {},
-      center: [11.965245699999999, 57.704194599999994]
+      locations: {}
     };
   }
 
@@ -80,13 +79,15 @@ class App extends Component {
           content="PUSH LOCATION"
           type="submit"
         >
-          <div className="abuseButtonText">PUSH LOCATION</div>
+          <div className="abuseButtonText">Push location</div>
         </button>
+        {this.state.position.coords && 
         <Map
           zoom={[17]}
           locations={this.state.locations}
-          center={this.state.center}
+          center={[this.state.position.coords.longitude, this.state.position.coords.latitude]}
         />
+        }
       </div>
     );
   }

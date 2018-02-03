@@ -28,7 +28,7 @@ class App extends Component {
         zoom={this.props.zoom}
         center={[11.965245699999999, 57.704194599999994]}
       >
-        <Layer type="symbol" layout={{ 'icon-image': 'star-15' }}>
+        <Layer type="heatmap">
           {R.values(this.props.locations).map((e, i) =>
             <Feature key={i} coordinates={e.geometry.coordinates} />
           )}

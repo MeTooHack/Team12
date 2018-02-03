@@ -28,7 +28,15 @@ class App extends Component {
         zoom={this.props.zoom}
         center={[11.965245699999999, 57.704194599999994]}
       >
-        <Layer type="heatmap">
+        <Layer
+          type="heatmap"
+          paint={{
+            'heatmap-opacity': 0.9,
+            'heatmap-intensity': 0.1,
+            'heatmap-radius': 40,
+            'heatmap-weight': 0.5
+          }}
+        >
           {R.values(this.props.locations).map((e, i) =>
             <Feature key={i} coordinates={e.geometry.coordinates} />
           )}

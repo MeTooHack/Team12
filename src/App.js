@@ -23,11 +23,6 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-database.ref().push().set({
-  username: 'hej',
-  email: 'hej@hej.com'
-});
-
 // var userId = firebase.auth().currentUser.uid;
 database.ref('/').once('value').then(function(snapshot) {
   console.log(snapshot.val());
@@ -44,14 +39,10 @@ class App extends Component {
 
   pushLocation() {
     Location.get()
-      .then(pos => {
-        // push to firebase
-        console.log(pos)
-
-        const geoJson = toGeoJson(pos)
-
-        console.log(geoJson)
-      })
+      .then(position =>
+        // Push geojson to firebase
+        database.ref().push().set(toGeoJson(position))
+      )
       .catch(err => console.log(err));
   }
 

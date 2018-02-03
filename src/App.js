@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import './App.css';
+import * as firebase from 'firebase';
+
+const Map = ReactMapboxGl({
+  accessToken:
+    'pk.eyJ1IjoiZmFicmljOCIsImEiOiJjaWc5aTV1ZzUwMDJwdzJrb2w0dXRmc2d0In0.p6GGlfyV-WksaDV_KdN27A'
+});
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Map
+        style="mapbox://styles/mapbox/streets-v9"
+        containerStyle={{
+          height: '100vh',
+          width: '100vw'
+        }}
+      >
+        <Layer type="symbol" id="marker" layout={{ 'icon-image': 'marker-15' }}>
+          <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
+        </Layer>
+      </Map>
     );
   }
 }

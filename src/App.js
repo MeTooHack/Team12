@@ -18,6 +18,22 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+class Button extends React.Component {
+
+  render() {
+    const { 
+      content,
+      ...others
+    } = this.props;
+    
+    return (
+      <button className="abuseButton">
+        <div className="abuseButtonText">{content}</div>
+      </button>
+    )
+  }
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -69,13 +85,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <button
-          className="App-intro"
+        <Button
           onClick={this.pushLocation.bind(this)}
-          style={{ position: 'absolute', zIndex: 100 }}
-        >
-          Push location
-        </button>
+          style={{ zIndex: 100 }}
+        />
         <Map zoom={[17]} locations={this.state.locations} />
       </div>
     );

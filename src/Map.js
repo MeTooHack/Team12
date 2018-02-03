@@ -25,6 +25,7 @@ class App extends Component {
           height: '100vh',
           width: '100vw'
         }}
+        zoom={this.props.zoom}
         center={[11.965245699999999, 57.704194599999994]}
       >
         <Layer type="symbol" layout={{ 'icon-image': 'star-15' }}>

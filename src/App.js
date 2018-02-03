@@ -18,21 +18,6 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-class Button extends React.Component {
-
-  render() {
-    const { 
-      content,
-      ...others
-    } = this.props;
-    
-    return (
-      <button className="abuseButton">
-        <div className="abuseButtonText">{content}</div>
-      </button>
-    )
-  }
-}
 
 class App extends Component {
   constructor(props) {
@@ -84,11 +69,15 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Button
+      <div className="App">
+        <button
+          className="abuseButton"
           onClick={this.pushLocation.bind(this)}
-          style={{ zIndex: 100 }}
-        />
+          content="PUSH LOCATION"
+        >
+        <div className="abuseButtonText">
+        PUSH LOCATION</div>
+        </button>
         <Map zoom={[17]} locations={this.state.locations} />
       </div>
     );

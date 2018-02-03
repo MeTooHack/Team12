@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
-import './App.css';
 import * as firebase from 'firebase';
-import Location from './utils/Location';
+
+import './App.css';
+import Location from './utils/Location'
+import { toGeoJson } from './utils/GeoJson'
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -44,7 +46,11 @@ class App extends Component {
     Location.get()
       .then(pos => {
         // push to firebase
-        console.log(pos);
+        console.log(pos)
+
+        const geoJson = toGeoJson(pos)
+
+        console.log(geoJson)
       })
       .catch(err => console.log(err));
   }
@@ -52,6 +58,13 @@ class App extends Component {
   render() {
     return (
       <div>
+        <button
+          className="App-intro"
+          onClick={ this.pushLocation.bind(this) }
+        >
+          Push location
+        </button>
+
         <Map
           style="mapbox://styles/mapbox/streets-v9"
           containerStyle={{
@@ -69,10 +82,6 @@ class App extends Component {
             <Feature coordinates={[16.327, 56.6875]} />
           </Layer>
         </Map>
-
-        <button className="App-intro" onClick={this.pushLocation.bind(this)}>
-          Push location
-        </button>
       </div>
     );
   }

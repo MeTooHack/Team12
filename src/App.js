@@ -59,7 +59,8 @@ class App extends Component {
   }
 
   pushLocation() {
-    if (this.state.position) {
+    console.log('Got location', this.state.position);
+    if (this.state.position && this.state.position.coords) {
       console.log('Pushing ', toGeoJson(this.state.position));
       database.ref().push().set(toGeoJson(this.state.position));
     } else {

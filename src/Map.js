@@ -20,7 +20,7 @@ class App extends Component {
   render() {
     return (
       <Map
-        style="mapbox://styles/mapbox/streets-v9"
+        style="mapbox://styles/mapbox/dark-v9"
         containerStyle={{
           height: '100vh',
           width: '100vw'
@@ -28,7 +28,15 @@ class App extends Component {
         zoom={this.props.zoom}
         center={[11.965245699999999, 57.704194599999994]}
       >
-        <Layer type="symbol" layout={{ 'icon-image': 'star-15' }}>
+        <Layer
+          type="heatmap"
+          paint={{
+            'heatmap-opacity': 0.9,
+            'heatmap-intensity': 0.1,
+            'heatmap-radius': 40,
+            'heatmap-weight': 0.5
+          }}
+        >
           {R.values(this.props.locations).map((e, i) =>
             <Feature key={i} coordinates={e.geometry.coordinates} />
           )}

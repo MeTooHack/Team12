@@ -35,4 +35,8 @@
   font-weight: bold;
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
+  
+}
+.abuseButton:focus {
+  outline: none;
 }

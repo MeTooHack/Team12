@@ -79,7 +79,7 @@ class App extends Component {
           content="PUSH LOCATION"
           type="submit"
         >
-        ME  TOO
+          ME  TOO
         </button>
         {this.state.position.coords && 
         <Map

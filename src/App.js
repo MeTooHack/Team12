@@ -76,15 +76,14 @@ class App extends Component {
             height: '100vh',
             width: '100vw'
           }}
+          center={[16.327, 56.6875]}
         >
           <Layer
             type="symbol"
             id="marker"
             layout={{ 'icon-image': 'marker-15' }}
           >
-            <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
-            <Feature coordinates={[56.6875, 16.327]} />
-            <Feature coordinates={[16.327, 56.6875]} />
+            <Feature coordinates={ [16.327, 56.6875] } />
           </Layer>
         </Map>
       </div>

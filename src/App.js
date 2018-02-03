@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import './App.css';
 import * as firebase from 'firebase';
-import Location from './utils/Location'
+import Location from './utils/Location';
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -21,6 +21,11 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+database.ref().push().set({
+  username: 'hej',
+  email: 'hej@hej.com'
+});
+
 // var userId = firebase.auth().currentUser.uid;
 database.ref('/').once('value').then(function(snapshot) {
   console.log(snapshot.val());
@@ -28,20 +33,20 @@ database.ref('/').once('value').then(function(snapshot) {
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       locations: []
-    }
+    };
   }
 
   pushLocation() {
     Location.get()
       .then(pos => {
         // push to firebase
-        console.log(pos)
+        console.log(pos);
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -59,19 +64,16 @@ class App extends Component {
             id="marker"
             layout={{ 'icon-image': 'marker-15' }}
           >
-            <Feature coordinates={ [-0.481747846041145, 51.3233379650232] } />
+            <Feature coordinates={[-0.481747846041145, 51.3233379650232]} />
           </Layer>
         </Map>
 
-        <button
-          className="App-intro"
-          onClick={ this.pushLocation.bind(this) }
-        >
+        <button className="App-intro" onClick={this.pushLocation.bind(this)}>
           Push location
         </button>
-    </div>
-    )
+      </div>
+    );
   }
 }
 
-export default App
+export default App;

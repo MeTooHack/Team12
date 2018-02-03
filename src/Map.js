@@ -20,13 +20,13 @@ class App extends Component {
   render() {
     return (
       <Map
-        style="mapbox://styles/mapbox/dark-v9"
+        style="mapbox://styles/mapbox/basic-v9"
         containerStyle={{
           height: '100vh',
           width: '100vw'
         }}
         zoom={this.props.zoom}
-        center={[11.965245699999999, 57.704194599999994]}
+        center={this.props.center}
       >
         <Layer
           type="heatmap"

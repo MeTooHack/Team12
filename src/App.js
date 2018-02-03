@@ -25,7 +25,8 @@ class App extends Component {
 
     this.state = {
       position: {},
-      locations: {}
+      locations: {},
+      center: [11.965245699999999, 57.704194599999994]
     };
   }
 
@@ -82,7 +83,7 @@ class App extends Component {
         <div className="abuseButtonText">
         PUSH LOCATION</div>
         </button>
-        <Map zoom={[17]} locations={this.state.locations} />
+        <Map zoom={[17]} locations={this.state.locations} center={this.state.center} />
       </div>
     );
   }
